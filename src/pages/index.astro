@@ -1,16 +1,63 @@
 ---
+import Image from "astro/components/Image.astro";
+import Layout from "../layouts/Layout.astro";
 
+const allPosts = Object.values(
+	import.meta.glob("./blog/*.md", { eager: true }),
+);
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout>
+	<section class="hero">
+		<h1>Welcome to my digital garden</h1>
+		<p>
+			Opinions here are <i>mine</i>, but hopefully, they represent you as well.
+		</p>
+	</section>
+	<section>
+		<h2>Most recent writing</h2>
+		<ul role="list" class="grid">
+			{
+				allPosts.map(async (post: any) => {
+					const img = (await import(post.frontmatter.image.url)).default;
+					return (
+						<li>
+							<a href={post.url} class="contrast">
+								<article>
+									<Image src={img} alt={post.frontmatter.image.alt} />
+									<h3>{post.frontmatter.title}</h3>
+									<p>{post.frontmatter.description}</p>
+								</article>
+							</a>
+						</li>
+					);
+				})
+			}
+		</ul>
+	</section>
+</Layout>
+
+<style>
+	a {
+		text-decoration: none;
+	}
+
+	.hero {
+		width: fit-content;
+		margin-inline: auto;
+	}
+
+	[role="list"] {
+		list-style: none !important;
+		padding: 0;
+		li {
+			list-style: none !important;
+		}
+	}
+
+	article {
+		padding: 0;
+		background: transparent;
+		box-shadow: none;
+	}
+</style>

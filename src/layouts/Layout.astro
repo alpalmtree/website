@@ -1,0 +1,32 @@
+---
+import { ClientRouter } from "astro:transitions";
+import Navbar from "../components/Navbar.astro";
+import Favicon from "../components/Favicon.astro"
+import "../resources/css/pico.pumpkin.css";
+const { title } = Astro.props
+---
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<Favicon />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{ title && `${title} |`} Al's garden</title>
+		<ClientRouter />
+	</head>
+	<body>
+		<header>
+			<Navbar />
+		</header>
+		<main class="container">
+			<slot />
+		</main>
+	</body>
+</html>
+<style>
+	main {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+	}
+</style>

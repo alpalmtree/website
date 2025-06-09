@@ -1,0 +1,43 @@
+---
+import { ClientRouter } from "astro:transitions";
+import { Image } from "astro:assets";
+
+import Navbar from "../components/Navbar.astro";
+import Favicon from "../components/Favicon.astro";
+import "../resources/css/pico.pumpkin.css";
+const { frontmatter } = Astro.props;
+const Hero = (await import(frontmatter.image.url)).default;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <Favicon />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{frontmatter.title}</title>
+    <ClientRouter />
+  </head>
+  <body>
+    <header>
+      <Navbar />
+    </header>
+    <main class="container">
+      <div class="hero">
+        <h1>{frontmatter.title}</h1>
+        <p><i>{frontmatter.description}</i></p>
+        <Image src={Hero} alt={frontmatter.image.alt} />
+      </div>
+      <slot />
+    </main>
+  </body>
+</html>
+<style>
+  img {
+    width: 100%;
+  }
+
+  .hero {
+    position: relative;
+  }
+</style>
