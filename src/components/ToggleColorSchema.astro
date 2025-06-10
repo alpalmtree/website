@@ -153,11 +153,12 @@
     }
 
     connectedCallback() {
+      const browserSchema = globalThis.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
       const prefersSchema = localStorage.getItem('prefers_schema')
-      if (!prefersSchema) return;
 
-      this.html.dataset.theme = prefersSchema
-      this.checkbox.checked = prefersSchema === 'dark'
+
+      this.html.dataset.theme = prefersSchema ?? browserSchema
+      this.checkbox.checked = prefersSchema === 'dark' || browserSchema === 'dark'
     }
   }
 
