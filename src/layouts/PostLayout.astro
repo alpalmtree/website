@@ -6,7 +6,8 @@ import Navbar from "../components/Navbar.astro";
 import Favicon from "../components/Favicon.astro";
 import "../resources/css/pico.pumpkin.css";
 const { frontmatter } = Astro.props;
-const Hero = (await import(frontmatter.image.url)).default;
+
+const Hero = (await import(`../pages/blog/${frontmatter.image.url}/img.webp`)).default;
 ---
 
 <html lang="en">
