@@ -28,6 +28,7 @@ const Hero = (await import(frontmatter.image.url)).default;
         <p><i>{frontmatter.description}</i></p>
         <Image src={Hero} alt={frontmatter.image.alt} />
       </div>
+      <hr>
       <slot />
     </main>
   </body>
@@ -38,6 +39,6 @@ const Hero = (await import(frontmatter.image.url)).default;
   }
 
   .hero {
-    position: relative;
+    margin-bottom: 32px;
   }
 </style>

@@ -1,0 +1,3 @@
+{"rule":"ENGLISH_WORD_REPEAT_BEGINNING_RULE","sentence":"^\\QIt is thanks to open source that I can now live comfortably and write these lines from the home office of a beautiful apartment I own.\\E$"}
+{"rule":"MORFOLOGIK_RULE_EN_US","sentence":"^\\QOne of the professions first affected by proto-AI.\\E$"}
+{"rule":"PROFANITY","sentence":"^\\QWhat really made me survive was a combination of customer service jobs and legal translation at 0.045 cents per word (if you know nothing about translation market, that is shit).\\E$"}
