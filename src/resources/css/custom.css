@@ -1,0 +1,11 @@
+  [role="list"] {
+    list-style: none !important;
+    padding: 0;
+    li {
+      list-style: none !important;
+    }
+  }
+
+  a {
+    text-decoration: none;
+  }

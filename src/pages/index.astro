@@ -1,9 +1,9 @@
 ---
-import Image from "astro/components/Image.astro";
 import Layout from "../layouts/Layout.astro";
+import PostsList from "../components/PostsList.astro";
 
 const allPosts = Object.values(
-	import.meta.glob("./blog/**/*.md", { eager: true }),
+  import.meta.glob("./blog/**/*.md", { eager: true }),
 );
 
 ---
@@ -17,50 +17,15 @@ const allPosts = Object.values(
 	</section>
 	<section>
 		<h2>Most recent writing</h2>
-		<ul role="list" class="grid">
-			{
-				allPosts.map(async (post: any) => {
-					const img = (await import(`../assets/${post.frontmatter.image.url.replace('.webp', "")}.webp`)).default;
-					return (
-						<li>
-							<a href={post.url} class="contrast">
-								<article>
-									<Image src={img} alt={post.frontmatter.image.alt} />
-									<h3>{post.frontmatter.title}</h3>
-									<p>{post.frontmatter.description}</p>
-								</article>
-							</a>
-						</li>
-					);
-				})
-			}
-		</ul>
+		<PostsList posts={allPosts}/>
 	</section>
 </Layout>
 
 <style>
-	a {
-		text-decoration: none;
-	}
-	h3 {
-		margin-top: 8px;
-	}
+
 	.hero {
 		width: fit-content;
 		margin-inline: auto;
 	}
 
-	[role="list"] {
-		list-style: none !important;
-		padding: 0;
-		li {
-			list-style: none !important;
-		}
-	}
-
-	article {
-		padding: 0;
-		background: transparent;
-		box-shadow: none;
-	}
 </style>

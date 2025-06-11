@@ -1,0 +1,21 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Taxonomy from "../../../.frontmatter/database/taxonomyDb.json";
+const tags = Taxonomy.taxonomy.tags
+---
+
+<Layout>
+  <h1>Posts by category</h1>
+  <ul role="list" class="grid">
+    { tags.map(tag => <li><a href={`/explore/${tag}`}>
+      <article><h3>{tag.at(0)?.toUpperCase() + tag.slice(1)}</h3></article></a></li>)}
+  </ul>
+</Layout>
+<style>
+
+  h3 {
+    margin: 0 auto;
+    width: fit-content;
+  }
+
+</style>

@@ -1,0 +1,32 @@
+---
+import type { GetStaticPaths } from "astro";
+import Layout from "../../layouts/Layout.astro";
+import Taxonomy from "../../../.frontmatter/database/taxonomyDb.json";
+
+
+export const getStaticPaths = (() => {
+  const tags = Taxonomy.taxonomy.tags;
+  return tags.map((tag) => ({ params: { tag } }));
+}) satisfies GetStaticPaths;
+
+const { tag } = Astro.params
+
+import PostsList from "../../components/PostsList.astro";
+
+const posts = Object.values(
+  import.meta.glob("../blog/**/*.md", { eager: true }),
+).filter((post: any) => post.frontmatter.tags.includes(tag));
+
+---
+
+<Layout>
+  <h1>{ tag.at(0)?.toUpperCase() + tag.slice(1)}</h1>
+  <p><a href="/explore" aria-label="Back to explore page" class="constrast"> &larr; Back</a></p>
+  <PostsList posts={posts} />
+</Layout>
+
+<style>
+  a {
+
+  }
+</style>

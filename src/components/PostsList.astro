@@ -1,0 +1,41 @@
+---
+import Image from "astro/components/Image.astro";
+
+const { posts } = Astro.props;
+---
+
+<ul role="list" class="grid">
+  {
+    posts.map(async (post: any) => {
+      const img = (
+        await import(
+          `../assets/${post.frontmatter.image.url.replace(".webp", "")}.webp`
+        )
+      ).default;
+      return (
+        <li>
+          <a href={post.url} class="contrast">
+            <article>
+              <Image src={img} alt={post.frontmatter.image.alt} />
+              <h3>{post.frontmatter.title}</h3>
+              <p>{post.frontmatter.description}</p>
+            </article>
+          </a>
+        </li>
+      );
+    })
+  }
+</ul>
+
+<style>
+
+  h3 {
+    margin-top: 8px;
+  }
+
+  article {
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+</style>
