@@ -109,6 +109,7 @@ h4,
 h5,
 h6 {
   --pico-font-weight: 700;
+  --pico-font-family: var(--pico-font-family-sans-serif);
 }
 
 h1 {
