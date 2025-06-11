@@ -8,7 +8,7 @@ import "../resources/css/pico.pumpkin.css";
 import Footer from "../components/Footer.astro";
 const { frontmatter } = Astro.props;
 
-const Hero = (await import(`../assets/${frontmatter.image.url}.webp`)).default;
+const Hero = (await import(`../assets/${frontmatter.image.url.replace('.webp', "")}.webp`)).default;
 ---
 
 <html lang="en">
