@@ -1,5 +1,5 @@
 ---
-layout: "../../../layouts/PostLayout.astro"
+layout: "../../layouts/PostLayout.astro"
 title: "With humans I stand"
 pubDate: 2025-06-09
 author: "Álvaro Palma"

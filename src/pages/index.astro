@@ -20,7 +20,7 @@ const allPosts = Object.values(
 		<ul role="list" class="grid">
 			{
 				allPosts.map(async (post: any) => {
-					const img = (await import(`./blog/${post.frontmatter.image.url}/img.webp`)).default;
+					const img = (await import(`../assets/${post.frontmatter.image.url}.webp`)).default;
 					return (
 						<li>
 							<a href={post.url} class="contrast">
