@@ -14,7 +14,7 @@ const { tag } = Astro.params
 import PostsList from "../../components/PostsList.astro";
 
 const posts = Object.values(
-  import.meta.glob("../blog/**/*.md", { eager: true }),
+  import.meta.glob("../blog/**/*.{md,mdx}", { eager: true }),
 ).filter((post: any) => post.frontmatter.tags.includes(tag));
 
 ---

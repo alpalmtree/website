@@ -1,0 +1,278 @@
+---
+import { Code } from "astro:components";
+import { readFileSync } from "node:fs"
+import { cwd } from "node:process"
+
+import CopyCode from "./CopyCode.astro"
+import Preview from "./Preview.astro";
+
+type Snippet = {
+    selected?: boolean;
+    name: string;
+    content: string;
+    lang: "js" | "css" | "html";
+    file: string
+};
+
+interface Props {
+    snippets: Snippet[];
+    tabsName: string;
+}
+
+const { snippets, tabsName } = Astro.props;
+
+const trasnformedSnippets = snippets.map( (snippet) => {
+    const file = readFileSync(`${cwd()}/public/snippets/${snippet.file}.${snippet.lang}`, {
+        encoding: "utf-8"
+    })
+
+    return { ...snippet, content: file }
+
+})
+---
+
+<!-- Original code copied from https://accessible-components.sparkbox.com/tabs and later modified -->
+<x-tabs>
+    <nav role="tablist" aria-labelledby="tablist-1">
+        {
+            trasnformedSnippets.map((snippet, index) => {
+                return (
+                    <button
+                        id={`${tabsName}-tab-${index}`}
+                        type="button"
+                        role="tab"
+                        aria-selected={snippet.selected ? "true" : "false"}
+                        aria-controls={`${tabsName}-tabpanel-${index}`}
+                        aria-current={snippet.selected ? "true" : "false"}
+                    >
+                        {snippet.name}
+                    </button>
+                );
+            })
+        }
+    </nav>
+
+    {
+        trasnformedSnippets.map((snippet, index) => {
+            return (
+                <section
+                    id={`${tabsName}-tabpanel-${index}`}
+                    role="tabpanel"
+                    aria-labelledby={`${tabsName}-tab-${index}`}
+                    class:list={[ { "is-hidden": !snippet.selected} ]}
+                >
+                    <CopyCode content={snippet.content} />
+                    <Code code={snippet.content} lang={snippet.lang} theme="nord"  wrap={true}/>
+                </section>
+            );
+        })
+    }
+</x-tabs>
+
+<Preview snippets={snippets} tabsName={tabsName} />
+
+
+<style>
+    .is-hidden {
+        display: none;
+    }
+
+    [role="tab"] {
+        transition: all ease-in-out 100ms;
+        padding: 0.5rem;
+        font-family: var(--pico-font-family-sans-serif);
+        margin-bottom: 0;
+        font-size: 0.8rem;
+
+        &:not(:last-child):not(:first-child) {
+            border-radius: 0;
+        }
+
+        &:first-child {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        &:last-child {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+    }
+
+    [role="tabpanel"] {
+        position: relative;
+    }
+
+    pre,
+    code {
+        border-top-left-radius: 0 !important;
+    }
+
+
+
+    [role="tablist"] {
+        justify-content: start;
+    }
+</style>
+
+<script>
+    class Tabs extends HTMLElement {
+        tabsList = [...this.querySelectorAll("[role=tab]")];
+        tabPanels = [...this.querySelectorAll("[role=tabpanel]")];
+
+        static init = () =>
+            !customElements.get("x-tabs") &&
+            customElements.define("x-tabs", Tabs);
+
+        constructor() {
+            super();
+
+            this.tabsList.forEach((tab) => {
+                tab.addEventListener("click", () => {
+                    let tabPanel = document.getElementById(
+                        `${tab.getAttribute("aria-controls")}`,
+                    );
+                    this.resetActiveTabs();
+                    this.resetTabIndex(tab as HTMLElement);
+                    this.togglePanel(tabPanel!);
+                    tab.setAttribute("aria-selected", "true");
+                    tab.setAttribute("aria-current", "true");
+                });
+            });
+            this.addEventListener("keydown", (e) => {
+                switch (e.key) {
+                    case "ArrowRight":
+                        this.selectRightTab();
+                        break;
+                    case "ArrowLeft":
+                        this.selectLeftTab();
+                        break;
+                    case "Home":
+                        this.selectFirstTab();
+                        break;
+                    case "End":
+                        this.selectLastTab();
+                        break;
+                    default:
+                        break;
+                }
+            });
+        }
+
+        togglePanel = (tabPanel: HTMLElement) => {
+            this.resetHiddenTabPanels();
+            tabPanel.classList.remove("is-hidden");
+        };
+
+        resetHiddenTabPanels = () => {
+            this.tabPanels.forEach((tabPanel) => {
+                if (!tabPanel.classList.contains("is-hidden")) {
+                    tabPanel.classList.add("is-hidden");
+                }
+            });
+        };
+
+        resetActiveTabs = () => {
+            this.tabsList.forEach((tab) => {
+                if (tab.getAttribute("aria-selected") === "true") {
+                    tab.setAttribute("aria-selected", "false");
+                    tab.setAttribute("aria-current", "false");
+                }
+            });
+        };
+
+        resetTabIndex = (selectedTab: HTMLElement) => {
+            this.tabsList.forEach((tab) => {
+                tab.setAttribute("tabIndex", "-1");
+            });
+            selectedTab.removeAttribute("tabIndex");
+        };
+
+        getActiveTab = () => {
+            let selectedTab;
+            this.tabsList.forEach((tab) => {
+                if (tab.getAttribute("aria-selected") === "true")
+                    selectedTab = tab;
+            });
+            return selectedTab;
+        };
+
+        selectRightTab = () => {
+            let newTab;
+            if (
+                this.tabsList.indexOf(this.getActiveTab()!) + 1 ===
+                this.tabsList.length
+            ) {
+                newTab = this.tabsList[0];
+            } else {
+                newTab =
+                    this.tabsList[
+                        this.tabsList.indexOf(this.getActiveTab()!) + 1
+                    ];
+            }
+            const oldTab =
+                this.tabsList[this.tabsList.indexOf(this.getActiveTab()!)];
+            oldTab.setAttribute("aria-selected", "false");
+            oldTab.setAttribute("aria-current", "false");
+            let tabPanel = document.getElementById(
+                `${newTab.getAttribute("aria-controls")}`,
+            );
+            this.resetActiveTabs();
+            this.resetTabIndex(newTab as HTMLElement);
+            this.togglePanel(tabPanel!);
+            newTab.setAttribute("aria-selected", "true");
+            newTab.setAttribute("aria-current", "true");
+        };
+        selectLeftTab = () => {
+            let newTab;
+            if (this.tabsList.indexOf(this.getActiveTab()!) - 1 < 0) {
+                newTab = this.tabsList[this.tabsList.length - 1];
+            } else {
+                newTab =
+                    this.tabsList[
+                        this.tabsList.indexOf(this.getActiveTab()!) - 1
+                    ];
+            }
+            const oldTab =
+                this.tabsList[this.tabsList.indexOf(this.getActiveTab()!)];
+            oldTab.setAttribute("aria-selected", "false");
+            oldTab.setAttribute("aria-current", "false");
+            let tabPanel = document.getElementById(
+                `${newTab.getAttribute("aria-controls")}`,
+            );
+            this.resetActiveTabs();
+            this.resetTabIndex(newTab as HTMLElement);
+            this.togglePanel(tabPanel!);
+            newTab.setAttribute("aria-selected", "true");
+            newTab.setAttribute("aria-current", "true");
+        };
+
+        selectFirstTab = () => {
+            const newTab = this.tabsList[0];
+            let tabPanel = document.getElementById(
+                `${newTab.getAttribute("aria-controls")}`,
+            );
+            this.resetActiveTabs();
+            this.resetTabIndex(newTab as HTMLElement);
+            this.togglePanel(tabPanel!);
+            newTab.setAttribute("aria-selected", "true");
+            newTab.setAttribute("aria-current", "true");
+        };
+
+        selectLastTab = () => {
+            const newTab = this.tabsList.at(-1)!;
+            let tabPanel = document.getElementById(
+                `${newTab.getAttribute("aria-controls")}`,
+            );
+            this.resetActiveTabs();
+            this.resetTabIndex(newTab as HTMLElement);
+            this.togglePanel(tabPanel!);
+            newTab.setAttribute("aria-selected", "true");
+            newTab.setAttribute("aria-current", "true");
+        };
+    }
+
+    Tabs.init();
+</script>
