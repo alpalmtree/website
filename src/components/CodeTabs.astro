@@ -4,14 +4,13 @@ import { readFileSync } from "node:fs"
 import { cwd } from "node:process"
 
 import CopyCode from "./CopyCode.astro"
-import Preview from "./Preview.astro";
 
 type Snippet = {
     selected?: boolean;
     name: string;
     content: string;
     lang: "js" | "css" | "html";
-    file: string
+    file?: string
 };
 
 interface Props {
@@ -22,11 +21,14 @@ interface Props {
 const { snippets, tabsName } = Astro.props;
 
 const trasnformedSnippets = snippets.map( (snippet) => {
-    const file = readFileSync(`${cwd()}/public/snippets/${snippet.file}.${snippet.lang}`, {
-        encoding: "utf-8"
-    })
+    if (snippet.file) {
+        const file = readFileSync(`${cwd()}/public/snippets/${snippet.file}.${snippet.lang}`, {
+            encoding: "utf-8"
+        })
+        return { ...snippet, content: file }
+    }
+    return snippet
 
-    return { ...snippet, content: file }
 
 })
 ---
@@ -62,14 +64,12 @@ const trasnformedSnippets = snippets.map( (snippet) => {
                     class:list={[ { "is-hidden": !snippet.selected} ]}
                 >
                     <CopyCode content={snippet.content} />
-                    <Code code={snippet.content} lang={snippet.lang} theme="nord"  wrap={true}/>
+                    <Code code={snippet.content} lang={snippet.lang} theme="nord"  wrap={false}/>
                 </section>
             );
         })
     }
 </x-tabs>
-
-<Preview snippets={snippets} tabsName={tabsName} />
 
 
 <style>
@@ -83,6 +83,7 @@ const trasnformedSnippets = snippets.map( (snippet) => {
         font-family: var(--pico-font-family-sans-serif);
         margin-bottom: 0;
         font-size: 0.8rem;
+        font-weight: 700;
 
         &:not(:last-child):not(:first-child) {
             border-radius: 0;
@@ -108,6 +109,7 @@ const trasnformedSnippets = snippets.map( (snippet) => {
     pre,
     code {
         border-top-left-radius: 0 !important;
+        border-radius: 0;
     }
 
 
