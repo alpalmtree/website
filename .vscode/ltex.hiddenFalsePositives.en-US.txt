@@ -1,3 +1,6 @@
 {"rule":"ENGLISH_WORD_REPEAT_BEGINNING_RULE","sentence":"^\\QIt is thanks to open source that I can now live comfortably and write these lines from the home office of a beautiful apartment I own.\\E$"}
 {"rule":"MORFOLOGIK_RULE_EN_US","sentence":"^\\QOne of the professions first affected by proto-AI.\\E$"}
 {"rule":"PROFANITY","sentence":"^\\QWhat really made me survive was a combination of customer service jobs and legal translation at 0.045 cents per word (if you know nothing about translation market, that is shit).\\E$"}
+{"rule":"NEEDNT_TO_DO_AND_DONT_NEED_DO","sentence":"^\\QWhile some people state that the cost of Web Components is not worth the use case, some others state that \"you don't need React (or any other frontend framework) anymore\".\\E$"}
+{"rule":"LITTLE_BIT","sentence":"^\\QLet's put an example by making one of the previous examples a tiny little bit more complicated:\\E$"}
+{"rule":"POSSESSIVE_APOSTROPHE","sentence":"^\\QThe regions are clearly defined by their respective custom elements wrapper.\\E$"}

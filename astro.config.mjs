@@ -8,6 +8,13 @@ export default defineConfig({
    markdown: {
     shikiConfig: {
       theme: 'nord',
+      transformers: [{
+        code() {
+          // For an easier implementation of the copy code button
+          this.pre.properties['data-content'] = this.source;
+          
+        }
+      }]
     },
   },
   integrations: [mdx()]
