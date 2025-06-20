@@ -94,7 +94,7 @@ Overall, I'd argue it's a rather useful technology, but you can totally avoid it
 ### The `template` element
 Looking at the example above (or if you are used to creating elements in vanilla JS), we can very easily see how creating and attaching elements to the DOM can be pretty boilerplate-ish. This is one of the reasons why we have the `template` element. While you could still create one and setting its `innerHTML` via JavaScript, they allow for pretty interesting patterns. Learn more about it [on MDN's documentation](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/template).
 
-The most interesting bit, I'd argue, is the fact that even if they exist in the DOM, they won't be visible until you append it somehow (either manually or using the declarative shadow DOM). In case you want the content that you will later append to exist in the DOM (for instance, if you are server-side-rendering/statically-generating it), your users won't see any flashed content neither you have to worry about using any workaround (classic AngularJS's `ng-cloak`, if you know what I mean).
+The most interesting bit, I'd argue, is the fact that even if they exist in the DOM, they won't be visible until you append it somehow (either manually or using the declarative shadow DOM). In case you want the content that you will later append to exist in the DOM (for instance, if you are server-side-rendering/statically-generating it), your users won't see any flashed content neither you have to worry about using any workaround (classic AngularJS' `ng-cloak`, if you know what I mean).
 
 <x-code-tabs>
 ```js
