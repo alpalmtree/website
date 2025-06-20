@@ -29,20 +29,7 @@ Broadly speaking, the Shadow DOM api allows you to create a sort of scope inside
 This is typically used together with Custom Elements because is a great way of providing our beloved encapsulation we see in React (or \<your_framework_here\>, remember). When attaching a shadow DOM to an HTMLElement:
 
 <x-code-tabs>
-  ```html
-  <h1>Hello world</h1>
-  ```
 
-  ```js
-  console.log('hi');
-  const anotherLine = "hello"
-  const fun = () => {
-    return "yes"
-  }
-  ```
-</x-code-tabs>
-
-<x-code-tabs>
 ```js
 const appRoot = document.getElementById("app-root");
 
@@ -97,6 +84,7 @@ Looking at the example above (or if you are used to creating elements in vanilla
 The most interesting bit, I'd argue, is the fact that even if they exist in the DOM, they won't be visible until you append it somehow (either manually or using the declarative shadow DOM). In case you want the content that you will later append to exist in the DOM (for instance, if you are server-side-rendering/statically-generating it), your users won't see any flashed content neither you have to worry about using any workaround (classic AngularJS' `ng-cloak`, if you know what I mean).
 
 <x-code-tabs>
+
 ```js
 const appRoot = document.getElementById("app-root");
 const form = document.getElementById("hi-form");
@@ -137,6 +125,7 @@ Creating elements with `document.createElement` and manipulating the attributes 
 If you found the two technologies useful so far, I have great news: they DO pair **very** well, allowing even for more complex composition while not having to write a single line of JavaScript:
 
 <x-code-tabs>
+
 ```html
 <div id="app-root">
     <p>
@@ -185,6 +174,7 @@ The "confusion" (or merely coining by the community) of the concept *Web Compone
 Simply put: you don't (necessarily) have to use `template`s, the shadow DOM or do any sort of client side rendering. You just use custom elements to wrap a piece of HTML and hydrate it. What a good-old `querySelector` would do, but on steroids. Let's put an example by making one of the previous examples a tiny little bit more complicated:
 
 <x-code-tabs>
+
 ```html
 <body>
   <header>
@@ -258,6 +248,7 @@ There are few things I'd like to highlight. Keep in mind that this example is ex
 Let's now see the same example using Custom Elements:
 
 <x-code-tabs>
+
 ```html
 <body>
   <header>
