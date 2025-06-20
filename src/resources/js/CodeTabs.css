@@ -2,7 +2,7 @@
        display: none;
    }
 
-   [role="tab"] {
+   x-code-tabs [role="tab"] {
        transition: all ease-in-out 100ms;
        padding: 0.5rem;
        font-family: var(--pico-font-family-sans-serif);
@@ -31,14 +31,14 @@
        position: relative;
    }
 
-   pre,
-   code {
+   x-code-tabs pre,
+   x-code-tabs code {
        border-top-left-radius: 0 !important;
        border-radius: 0;
    }
 
 
 
-   [role="tablist"] {
+   x-code-tabs [role="tablist"] {
        justify-content: start;
    }

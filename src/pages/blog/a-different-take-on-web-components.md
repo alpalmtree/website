@@ -24,7 +24,7 @@ If you are totally new to Web Components, I'd highly recommend following any tut
 Web components are the name given to this set of native technologies available in modern browsers. Probably, Custom Elements would be at the basic level of the Web Components [prototype](https://en.wikipedia.org/wiki/Prototype_theory). As such, most literature out there focuses and exemplifies use cases with Custom Elements.
 
 ### Shadow DOM
-Broadly speaking, the Shadow DOM api allows you to create a sort of scope inside an HTMLElement (yes, HTMLElement, not necessarily a custom element). You can read more about it [in MDN's documentation](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM).
+Broadly speaking, the Shadow DOM API allows you to create a sort of scope inside an HTMLElement (yes, HTMLElement, not necessarily a custom element). You can read more about it [in MDN's documentation](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM).
 
 This is typically used together with Custom Elements because is a great way of providing our beloved encapsulation we see in React (or \<your_framework_here\>, remember). When attaching a shadow DOM to an HTMLElement:
 
